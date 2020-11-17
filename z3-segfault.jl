@@ -19,10 +19,7 @@ function sweep_arc_grid_cell(source_cell, arc_degrees)
     s = real_const(ctx, "s")
     println("9.5")
 
-    R = [
-        c s;
-        -s c
-    ]
+    R = [c s] # [c, s] does not cause segfault
     println("9.75")
     add(solver, c^2 + s^2 == 1) # poly constraint is issue?
 
