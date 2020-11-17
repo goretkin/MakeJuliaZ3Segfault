@@ -1,5 +1,4 @@
 using Z3
-using IntervalArithmetic: IntervalArithmetic, Interval, interval
 
 function add_interval_constraint(solver, var, lo, hi)
     add(solver, lo <= var)
@@ -90,7 +89,7 @@ function sweep_arc_grid_cell(source_cell, arc_degrees)
     return sols
 end
 
-sols = sweep_arc_grid_cell((10, 0), interval(0, 90))
+sols = sweep_arc_grid_cell((10, 0), nothing)
 using CartesianIndexSets: CartesianIndexSets, CartesianIndexSet
 
 sols_grid = convert(CartesianIndexSet, Set(map(x->CartesianIndex(x...), sols)))
