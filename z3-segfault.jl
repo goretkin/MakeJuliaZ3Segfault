@@ -1,6 +1,6 @@
 using Z3
 
-function sweep_arc_grid_cell(source_cell, arc_degrees)
+function fun()
     println("1")
     ctx = Context()
     println("2")
@@ -19,20 +19,17 @@ function sweep_arc_grid_cell(source_cell, arc_degrees)
     s = real_const(ctx, "s")
     println("9.5")
 
-    R = [c s] # [c, s] does not cause segfault
+    R = [
+        c s;
+    ]
+    # @show typeof(R) prevents segfault
     println("9.75")
     add(solver, c^2 + s^2 == 1) # poly constraint is issue?
 
 end
 
-sols = sweep_arc_grid_cell((10, 0), nothing)
-using CartesianIndexSets: CartesianIndexSets, CartesianIndexSet
-
-sols_grid = convert(CartesianIndexSet, Set(map(x->CartesianIndex(x...), sols)))
-
-@show sols_grid.x
-# using Plots
-# Plots.heatmap(sols_grid.x.parent)
+sols = fun()
+println("Did not segfault")
 
 """
 julia> include("subprojects/grid_geometry_gen/src/grid_rotate_cell.jl")
