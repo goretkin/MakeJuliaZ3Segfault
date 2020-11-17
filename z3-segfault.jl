@@ -4,28 +4,19 @@ function fun()
     println("1")
     ctx = Context()
     println("2")
-    # global ctx
     solver = Solver(ctx, "QF_NRA")
-    println("5")
-    # target cell
-    x_2 = int_const(ctx, "x_2")
-    y_2 = int_const(ctx, "y_2")
-    cell_2 = [x_2, y_2]
-    println("7")
-
-    println("9")
-    # rotation, (cosine and sine representation)
+    println("3")
     c = real_const(ctx, "c")
     s = real_const(ctx, "s")
-    println("9.5")
+    println("4")
 
     R = [
         c s;
     ]
     # @show typeof(R) prevents segfault
-    println("9.75")
-    add(solver, c^2 + s^2 == 1) # poly constraint is issue?
-
+    println("5")
+    add(solver, c == 1)
+    println("6")
 end
 
 sols = fun()
