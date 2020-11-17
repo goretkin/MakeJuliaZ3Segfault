@@ -15,7 +15,8 @@ function fun()
     ]
     # @show typeof(R) prevents segfault
     println("5")
-    add(solver, c == 1)
+    @show get_kind(c)
+    # add(solver, c == 1)
     println("6")
 end
 
