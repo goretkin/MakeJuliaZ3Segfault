@@ -1,38 +1,5 @@
 using Z3
 
-function add_interval_constraint(solver, var, lo, hi)
-    add(solver, lo <= var)
-    add(solver, var <= hi)
-    return nothing
-end
-
-function answer_set(solver, solution_consts; verbose=false)
-    sols = []
-    while true
-        res = check(solver)
-        res == Z3.sat || break
-
-        m = get_model(solver)
-
-        # TODO not just int
-        _get(const_) = get_numeral_int(Z3.eval(m, const_))
-
-        sol = _get.(solution_consts)
-        push!(sols, sol)
-        verbose && (@show length(sols))
-
-        enforce_new_solution = or((solution_consts .!= sol)...)
-        add(solver, enforce_new_solution)
-    end
-    return sols
-end
-
-# See https://github.com/ahumenberger/Z3.jl/issues/11
-Base.:+(e::Z3.ExprAllocated) = e
-Base.zero(e::Z3.ExprAllocated) = Z3.int_val(ctx, 0) # TODO ctx should come from `e`, or not be used.
-
-
-
 function sweep_arc_grid_cell(source_cell, arc_degrees)
     println("1")
     ctx = Context()
@@ -45,14 +12,6 @@ function sweep_arc_grid_cell(source_cell, arc_degrees)
     y_2 = int_const(ctx, "y_2")
     cell_2 = [x_2, y_2]
     println("7")
-    # a cell is a bin of values.
-    dx_1 = real_const(ctx, "dx_1")
-    dy_1 = real_const(ctx, "dy_1")
-    d_1 = [dx_1, dy_1]
-
-    dx_2 = real_const(ctx, "dx_2")
-    dy_2 = real_const(ctx, "dy_2")
-    d_2 = [dx_2, dy_2]
 
     println("9")
     # rotation, (cosine and sine representation)
