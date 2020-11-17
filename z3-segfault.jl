@@ -54,10 +54,6 @@ function sweep_arc_grid_cell(source_cell, arc_degrees)
     dy_2 = real_const(ctx, "dy_2")
     d_2 = [dx_2, dy_2]
 
-    # TODO maybe some of these inequalities should be strict, otherwise zero displacement of the source cell still interferes with all neighboring cells.
-    for var = [dx_1, dy_1, dx_2, dy_2]
-        add_interval_constraint(solver, var, -0.5, 0.5)
-    end
     println("9")
     # rotation, (cosine and sine representation)
     c = real_const(ctx, "c")
@@ -65,28 +61,12 @@ function sweep_arc_grid_cell(source_cell, arc_degrees)
     println("9.5")
 
     R = [
-        +c +s;
-        -s +c
+        c s;
+        -s c
     ]
     println("9.75")
     add(solver, c^2 + s^2 == 1) # poly constraint is issue?
 
-    # use quarter-turn symmetry, and only consider quarter turns
-    println("9.755")
-    add(solver, c >= 0)
-    add(solver, s >= 0)
-
-    source_point = source_cell .+ d_1
-    target_point = cell_2 .+ d_2
-
-    println("9.9")
-    target_point′ = R * source_point
-
-    add.(Ref(solver), target_point .== target_point′)
-
-    println("10")
-    sols = answer_set(solver, (x_2, y_2))
-    return sols
 end
 
 sols = sweep_arc_grid_cell((10, 0), nothing)
@@ -111,4 +91,16 @@ Line: 431
 UNREACHABLE CODE WAS REACHED.
 4.8.8.0
 Please file an issue with this message and more detail about how you encountered it at https://github.com/Z3Prover/z3/issues/new
+"""
+
+"""
+in expression starting at /Users/goretkin/projects/z3-segfault/z3-segfault.jl:76
+_ZN3api7context16reset_error_codeEv at /Users/goretkin/.julia/artifacts/71bdd8cf754f971d6fc3f9b42d2856330bb2e5b4/lib/libz3.4.8.8.0.dylib (unknown line)
+Z3_get_sort at /Users/goretkin/.julia/artifacts/71bdd8cf754f971d6fc3f9b42d2856330bb2e5b4/lib/libz3.4.8.8.0.dylib (unknown line)
+_ZNK2z34expr8get_sortEv at /Users/goretkin/.julia/artifacts/71bdd8cf754f971d6fc3f9b42d2856330bb2e5b4/lib/libz3jl.dylib (unknown line)
+_ZNSt3__110__function6__funcIZN5jlcxx11TypeWrapperIN2z34exprEE6methodINS4_4sortES5_JEEERS6_RKNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEMT0_KFT_DpT1_EEUlRKS5_E_NSD_ISQ_EEFS8_SP_EEclESP_ at /Users/goretkin/.julia/artifacts/71bdd8cf754f971d6fc3f9b42d2856330bb2e5b4/lib/libz3jl.dylib (unknown line)
+_ZN5jlcxx6detail17ReturnTypeAdapterIN2z34sortEJRKNS2_4exprEEEclEPKvNS_13WrappedCppPtrE at /Users/goretkin/.julia/artifacts/71bdd8cf754f971d6fc3f9b42d2856330bb2e5b4/lib/libz3jl.dylib (unknown line)
+_ZN5jlcxx6detail11CallFunctorIN2z34sortEJRKNS2_4exprEEE5applyEPKvNS_13WrappedCppPtrE at /Users/goretkin/.julia/artifacts/71bdd8cf754f971d6fc3f9b42d2856330bb2e5b4/lib/libz3jl.dylib (unknown line)
+get_sort at /Users/goretkin/.julia/packages/CxxWrap/94t40/src/CxxWrap.jl:590
+promote at /Users/goretkin/.julia/packages/Z3/MnUlr/src/Z3.jl:71 [inlined]
 """
