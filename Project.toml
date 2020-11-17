@@ -1,2 +1,7 @@
+name = "MakeJuliaZ3Segfault"
+uuid = "60fdaa94-2dc2-4ab8-b6fc-cea00b073fb8"
+authors = ["Gustavo Goretkin <gustavo.goretkin@gmail.com>"]
+version = "0.1.0"
+
 [deps]
 Z3 = "06b161dc-0161-11ea-0f74-41f836f4024b"
