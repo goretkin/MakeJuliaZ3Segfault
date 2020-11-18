@@ -14,8 +14,7 @@ function fun()
     ]
     # @show typeof(R) prevents segfault
     println("5")
-    @show Z3.get_kind(c)
-    # add(solver, c == 1)
+    add(solver, c == 1)
     println("6")
 end
 
