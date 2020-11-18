@@ -1,21 +1,20 @@
-using Z3
+using Z3: Z3
 
 function fun()
     println("1")
-    ctx = Context()
+    ctx = Z3.Context()
     println("2")
-    solver = Solver(ctx, "QF_NRA")
+    solver = Z3.Solver(ctx, "QF_NRA")
     println("3")
-    c = real_const(ctx, "c")
-    s = real_const(ctx, "s")
+    c = Z3.real_const(ctx, "c")
+    s = Z3.real_const(ctx, "s")
     println("4")
-
     R = [
         c s;
     ]
     # @show typeof(R) prevents segfault
     println("5")
-    @show get_kind(c)
+    @show Z3.get_kind(c)
     # add(solver, c == 1)
     println("6")
 end
