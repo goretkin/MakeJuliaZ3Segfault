@@ -14,7 +14,7 @@ function fun()
     ]
     # @show typeof(R) prevents segfault
     println("5")
-    expression = (c == 1)
+    GC.@preserve ctx expression = (c == 1)
     println("6")
 end
 
